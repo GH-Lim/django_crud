@@ -8,6 +8,12 @@
   <p>수정일자: {{ article.updated_at }}</p>
   <hr>
   <p>{{ article.content }}</p>
-  <a href="{% url 'articles:index' %}">뒤로가기</a>
-  <a href="{% url 'articles:delete' article.pk %}" onclick="return confirm('Are you sure?')">삭제하기</a>
+  {% comment %} <a href="{% url 'articles:index' %}"><button type="button">뒤로가기</button></a>
+  <a href="{% url 'articles:update' article.pk %}"><button type="button">수정하기</button></a> {% endcomment %}
+  <form action="{% url 'articles:delete' article.pk %}" method="POST">
+    {% csrf_token %}
+    <a href="{% url 'articles:index' %}"><button type="button">뒤로가기</button></a>
+    <a href="{% url 'articles:update' article.pk %}"><button type="button">수정하기</button></a>
+    <button type="submit" onclick="return confirm('Are you sure?')">삭제하기</button>
+  </form>
 {% endblock body %}
