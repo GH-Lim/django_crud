@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Article
+from .models import Article, Comment
 
 # articles 의 메인 페이지, article list 를 보여줌
 def index(request):
@@ -12,8 +12,10 @@ def index(request):
 # Variable Routing 으로 사용자가 보기를 원하는 페이지 pk 를 받아서 Detial 페이지를 보여줌
 def detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)  # pk 라는 인자를 넘겨줘야합니다!
+    comments = article.comment_set.all()
     context = {
         'article': article,
+        'comments': comments,
     }
     return render(request, 'articles/detail.html', context)
 
@@ -69,3 +71,17 @@ def delete(request, article_pk):
         return redirect('articles:index')
     else:
         return redirect('articles:detail', article_pk)
+
+def comments_create(request, article_pk):
+    # article_pk 에 해당하는 article 에 새로운 comment 생성
+    # 생성한 다음 detail page 로 redirect
+    article = get_object_or_404(Article, pk=article_pk)
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        comment = Comment()
+        comment.content = content
+        comment.article = article
+        # comment.article_id = article_pk  # 위와 완전히 같은 기능의 코드
+        comment.save()
+    # GET 요청으로 들어오면 if 실행 안하고 redirect
+    return redirect('articles:detail', article_pk)
