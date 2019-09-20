@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}전생직업{% endblock title %}
+
+{% block body %}
+<h1>{{ job.name }}님의 전생 직업은 {{ job.past_job }}입니다.</h1>
+<img src="{{ url }}" alt="직업 관련 사진"><br>
+<a href="{% url 'jobs:index' %} "><button type="button">돌아가기</button></a>
+{% endblock body %}

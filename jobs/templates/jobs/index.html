@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}전생 직업 찾기{% endblock title %}
+
+{% block body %}
+<h1>전생 직업 찾기</h1>
+<form action="{% url 'jobs:past_job' %}" method="POST">
+  {% csrf_token %}
+  <input type="text" name="name">
+  <button type="submit">찾기</button>
+</form>
+{% endblock body %}
