@@ -1,10 +1,18 @@
 from django.db import models
+from imagekit.processors import Thumbnail
+from imagekit.models import ImageSpecField
 
 
 class Article(models.Model):
     title = models.CharField(max_length=20)
     content = models.TextField()  # 문자열 빈 값 저장은 null 이 아니라 '' => null=True 를 사용하지 말자
     image = models.ImageField(blank=True, null=True)
+    image_thumbnail = ImageSpecField(
+        source='image',
+        processors=[Thumbnail(200, 200)],
+        format='JPEG',
+        options={'quality': 90},
+    )
     # black: 데이터 유효성과 관련되어있다 (True: 아무런 값이 넘어오지 않아도 저장 가능)
     # null: DB와 관련되어있다
     # blank vs null
