@@ -7,6 +7,10 @@
   <p>작성일자: {{ article.created_at }}</p>
   <p>수정일자: {{ article.updated_at }}</p>
   <hr>
+  {% if article.image %}
+  <img src="{{ article.image.url }}" alt="{{ article.image }}">
+  {% endif %}
+  
   <p>{{ article.content }}</p>
   <hr>
   <h3>댓글</h3>

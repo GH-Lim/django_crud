@@ -32,10 +32,8 @@ def create(request):
     if request.method == 'POST':
         title = request.POST.get('title')  # POST 요청으로 받아야합니다!
         content = request.POST.get('content')
-
-        article = Article()
-        article.title = title
-        article.content = content
+        image = request.FILES.get('image')  # image 파일은 POST/GET이 아닌 FILES 에서 꺼냄
+        article = Article(title=title, content=content, image=image)
         article.save()
 
         return redirect('articles:detail', article.pk)
@@ -51,9 +49,11 @@ def update(request, article_pk):
     if request.method == 'POST':
         title = request.POST.get('title')  # POST 요청으로 받아야합니다!
         content = request.POST.get('content')
-
+        image = request.FILES.get('image')
         article.title = title
         article.content = content
+        if image:
+            article.image = image
         article.save()
 
         return redirect('articles:detail', article.pk)
