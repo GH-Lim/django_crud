@@ -12,7 +12,8 @@ def index(request):
 # Variable Routing 으로 사용자가 보기를 원하는 페이지 pk 를 받아서 Detial 페이지를 보여줌
 def detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)  # pk 라는 인자를 넘겨줘야합니다!
-    comments = article.comment_set.all()
+    comments = article.comments.all()
+    # related_name 이 설정 되면 comment_set.all() 을 사용할 수 없습니다.
     context = {
         'article': article,
         'comments': comments,
@@ -80,8 +81,16 @@ def comments_create(request, article_pk):
         content = request.POST.get('content')
         comment = Comment()
         comment.content = content
-        comment.article = article
+        comment.article = article  # 어떤 article 의 comment 인지 알려주기 위한 작업
         # comment.article_id = article_pk  # 위와 완전히 같은 기능의 코드
         comment.save()
     # GET 요청으로 들어오면 if 실행 안하고 redirect
+    return redirect('articles:detail', article_pk)
+
+def comments_delete(request, article_pk, comment_pk):
+    # comment_pk 에 해당하는 댓글 삭제
+    # 댓글 삭제 후 detail 페이지로 이동
+    if request.method == 'POST':
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        comment.delete()
     return redirect('articles:detail', article_pk)

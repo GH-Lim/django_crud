@@ -18,7 +18,11 @@
   </form>
   <ul>
     {% for comment in comments %}
-      <li>{{ comment.content }}<br>
+      <li>{{ comment.content }}
+      <form action="{% url 'articles:comments_delete' article.pk comment.pk %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">삭제하기</button>
+      </form>
       작성 시간: {{ comment.created_at }}</li>
       {% empty %}
       <p>아직 댓글이 없습니다. 첫 댓글을 작성해보세요!</p>
