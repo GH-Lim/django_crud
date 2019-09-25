@@ -10,7 +10,7 @@
 
    - `accept`: 특정 파일 타입만 받을 수 있게 하기 위한 속성
 
-4. create 함수에서 파일을 `request.FILES` 로 꺼내서 `article` 변수에 저장
+4. create 함수에서 파일을 `request.FILES` 로 꺼내서(`.get()`) `article` 변수에 저장
 
 5. media 파일들을 저장하기 위한 폴더 설정
 
